@@ -1,0 +1,26 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 128 128">
+  <!-- 背景 -->
+  <rect width="128" height="128" fill="#2d5a87"/>
+  
+  <!-- 水面 -->
+  <ellipse cx="64" cy="95" rx="55" ry="20" fill="#1a3d5c"/>
+  
+  <!-- 鱼竿 -->
+  <line x1="20" y1="100" x2="75" y2="25" stroke="#8b4513" stroke-width="4" stroke-linecap="round"/>
+  
+  <!-- 鱼线 -->
+  <path d="M75 25 Q85 50, 70 75" stroke="#888" stroke-width="1.5" fill="none"/>
+  
+  <!-- 浮漂 -->
+  <ellipse cx="70" cy="78" rx="4" ry="8" fill="#ff3333"/>
+  <ellipse cx="70" cy="72" rx="3" ry="4" fill="#ffffff"/>
+  
+  <!-- 鱼 -->
+  <ellipse cx="50" cy="92" rx="15" ry="8" fill="#ffa500"/>
+  <polygon points="35,92 25,85 25,99" fill="#ffa500"/>
+  <circle cx="58" cy="90" r="2" fill="#000"/>
+  
+  <!-- 波纹 -->
+  <ellipse cx="70" cy="85" rx="8" ry="3" fill="none" stroke="#6699cc" stroke-width="1" opacity="0.6"/>
+  <ellipse cx="70" cy="85" rx="15" ry="5" fill="none" stroke="#6699cc" stroke-width="1" opacity="0.4"/>
+</svg>
