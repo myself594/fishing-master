@@ -1,0 +1,39 @@
+# Godot 4.x 忽略文件
+.godot/
+
+# Godot 导入文件
+*.import
+
+# Godot 导出模板和构建
+export_presets.cfg
+*.pck
+*.zip
+
+# Mono 编译缓存 (C# 项目)
+.mono/
+data_*/
+mono_crash.*.json
+
+# 系统文件
+.DS_Store
+Thumbs.db
+*.swp
+*.swo
+*~
+
+# IDE 和编辑器
+.vscode/
+.idea/
+*.sublime-project
+*.sublime-workspace
+
+# 日志文件
+*.log
+
+# 用户数据和存档 (运行时生成)
+# user://save_data.json
+
+# 临时文件
+*.tmp
+*.temp
+*.bak
