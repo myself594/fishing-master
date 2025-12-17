@@ -1,6 +1,9 @@
 # Godot 4.x 忽略文件
 .godot/
 
+# Godot 资源 UID 文件
+*.uid
+
 # Godot 导入文件
 *.import
 
