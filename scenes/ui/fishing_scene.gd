@@ -99,11 +99,17 @@ func _setup_ui() -> void:
 		background_texture.stretch_mode = TextureRect.STRETCH_KEEP_ASPECT_COVERED
 
 		# 应用水面涟漪 Shader
-		var shader_path = "res://assets/shaders/water_ripple.gdshader"
-		if ResourceLoader.exists(shader_path):
-			var shader_material = ShaderMaterial.new()
-			shader_material.shader = load(shader_path)
+		var shader_material = ShaderMaterial.new()
+		var shader = load("res://assets/shaders/water_ripple.gdshader")
+		if shader:
+			shader_material.shader = shader
+			# 设置 Shader 参数
+			shader_material.set_shader_parameter("wave_speed", 0.5)
+			shader_material.set_shader_parameter("wave_strength", 0.003)
+			shader_material.set_shader_parameter("water_start", 0.33)
 			background_texture.material = shader_material
+		else:
+			print("警告：无法加载水面涟漪 Shader")
 
 		add_child(background_texture)
 
