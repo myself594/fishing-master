@@ -37,6 +37,8 @@ var bait_label: Label
 var instruction_label: Label
 var water_rect: ColorRect
 var fishing_line: Line2D
+var background_texture: TextureRect
+var ambient_player: AudioStreamPlayer
 
 # 动画相关
 var float_base_y: float = 0.0
@@ -85,27 +87,63 @@ func _input(event: InputEvent) -> void:
 
 func _setup_ui() -> void:
 	set_anchors_preset(Control.PRESET_FULL_RECT)
-	
-	# 背景
-	var bg = ColorRect.new()
-	bg.set_anchors_preset(Control.PRESET_FULL_RECT)
-	bg.color = pond_data.get("background_color", Color(0.2, 0.4, 0.3))
-	add_child(bg)
-	
-	# 天空渐变（上半部分）
-	var sky = ColorRect.new()
-	sky.set_anchors_preset(Control.PRESET_TOP_WIDE)
-	sky.anchor_bottom = 0.4
-	sky.color = Color(0.4, 0.6, 0.8)
-	add_child(sky)
-	
-	# 水面
-	water_rect = ColorRect.new()
-	water_rect.set_anchors_preset(Control.PRESET_BOTTOM_WIDE)
-	water_rect.anchor_top = 0.4
-	water_rect.color = pond_data.get("water_color", Color(0.2, 0.5, 0.6, 0.9))
-	add_child(water_rect)
-	
+
+	# 背景（优先使用背景图片）
+	var bg_image_path = pond_data.get("background_image", "")
+	if bg_image_path != "" and ResourceLoader.exists(bg_image_path):
+		# 使用背景图片
+		background_texture = TextureRect.new()
+		background_texture.set_anchors_preset(Control.PRESET_FULL_RECT)
+		background_texture.texture = load(bg_image_path)
+		background_texture.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
+		background_texture.stretch_mode = TextureRect.STRETCH_KEEP_ASPECT_COVERED
+
+		# 应用水面涟漪 Shader
+		var shader_path = "res://assets/shaders/water_ripple.gdshader"
+		if ResourceLoader.exists(shader_path):
+			var shader_material = ShaderMaterial.new()
+			shader_material.shader = load(shader_path)
+			background_texture.material = shader_material
+
+		add_child(background_texture)
+
+		# 创建透明水面区域（用于兼容现有代码）
+		water_rect = ColorRect.new()
+		water_rect.set_anchors_preset(Control.PRESET_BOTTOM_WIDE)
+		water_rect.anchor_top = 0.4
+		water_rect.color = Color(0, 0, 0, 0)  # 透明
+		add_child(water_rect)
+	else:
+		# 使用色块背景（备用）
+		var bg = ColorRect.new()
+		bg.set_anchors_preset(Control.PRESET_FULL_RECT)
+		bg.color = pond_data.get("background_color", Color(0.2, 0.4, 0.3))
+		add_child(bg)
+
+		# 天空渐变（上半部分）
+		var sky = ColorRect.new()
+		sky.set_anchors_preset(Control.PRESET_TOP_WIDE)
+		sky.anchor_bottom = 0.4
+		sky.color = Color(0.4, 0.6, 0.8)
+		add_child(sky)
+
+		# 水面
+		water_rect = ColorRect.new()
+		water_rect.set_anchors_preset(Control.PRESET_BOTTOM_WIDE)
+		water_rect.anchor_top = 0.4
+		water_rect.color = pond_data.get("water_color", Color(0.2, 0.5, 0.6, 0.9))
+		add_child(water_rect)
+
+	# 播放环境音效（循环）
+	var ambient_path = pond_data.get("ambient_sound", "")
+	if ambient_path != "" and ResourceLoader.exists(ambient_path):
+		ambient_player = AudioStreamPlayer.new()
+		ambient_player.stream = load(ambient_path)
+		ambient_player.volume_db = -10  # 降低音量作为背景音
+		ambient_player.autoplay = true
+		ambient_player.finished.connect(_on_ambient_finished)
+		add_child(ambient_player)
+
 	# 钓鱼线
 	fishing_line = Line2D.new()
 	fishing_line.width = 2.0
@@ -596,6 +634,11 @@ func _on_change_bait_pressed() -> void:
 	
 	if vbox.get_child_count() == 0:
 		dialog.dialog_text = "没有可用饵料！请去商店购买。"
-	
+
 	add_child(dialog)
 	dialog.popup_centered()
+
+func _on_ambient_finished() -> void:
+	# 环境音效循环播放
+	if ambient_player:
+		ambient_player.play()

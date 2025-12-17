@@ -3,14 +3,16 @@ extends Node
 
 var pond_list: Array = [
 	{
-		"id": "lotus_pond",
-		"name": "新手村·荷花池",
-		"description": "宁静的乡村小池塘，荷花点缀，柳树依依",
+		"id": "village_river",
+		"name": "村口小河",
+		"description": "宁静的村口钓场，宽阔的河面波光粼粼",
 		"unlock_level": 1,
 		"entry_fee": 0,
 		"difficulty": 1,
 		"fish_count": 8,
-		"background_color": Color(0.2, 0.5, 0.3),  # 绿色调
+		"background_image": "res://assets/images/ponds/village_river_bg.png",
+		"ambient_sound": "res://assets/audio/ambient/village_river_ambient.ogg",
+		"background_color": Color(0.2, 0.5, 0.3),
 		"water_color": Color(0.3, 0.6, 0.5, 0.8),
 		"special": "失败不扣饵料（前3次），咬钩率+50%",
 		"bite_rate_bonus": 0.5,
