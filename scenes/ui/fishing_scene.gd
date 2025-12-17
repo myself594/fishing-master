@@ -103,11 +103,12 @@ func _setup_ui() -> void:
 		var shader = load("res://assets/shaders/water_ripple.gdshader")
 		if shader:
 			shader_material.shader = shader
-			# 设置 Shader 参数
-			shader_material.set_shader_parameter("wave_speed", 0.5)
-			shader_material.set_shader_parameter("wave_strength", 0.003)
+			# 设置 Shader 参数（增大强度让效果明显）
+			shader_material.set_shader_parameter("wave_speed", 1.0)
+			shader_material.set_shader_parameter("wave_strength", 0.015)
 			shader_material.set_shader_parameter("water_start", 0.33)
 			background_texture.material = shader_material
+			print("水面涟漪 Shader 已加载")
 		else:
 			print("警告：无法加载水面涟漪 Shader")
 
