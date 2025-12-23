@@ -101,16 +101,20 @@ func _setup_ui() -> void:
 		# 应用水面涟漪 Shader
 		var shader_material = ShaderMaterial.new()
 		var shader = load("res://assets/shaders/water_ripple.gdshader")
-		if shader:
+		var noise_tex = load("res://assets/textures/water_noise.tres")
+		if shader and noise_tex:
 			shader_material.shader = shader
-			# 设置 Shader 参数（增大强度让效果明显）
-			shader_material.set_shader_parameter("wave_speed", 1.0)
-			shader_material.set_shader_parameter("wave_strength", 0.015)
-			shader_material.set_shader_parameter("water_start", 0.33)
+			# 设置噪声纹理
+			shader_material.set_shader_parameter("noise_texture", noise_tex)
+			# 设置 Shader 参数
+			shader_material.set_shader_parameter("wave_speed", 0.08)
+			shader_material.set_shader_parameter("wave_strength", 0.008)
+			shader_material.set_shader_parameter("water_start", 0.0)
+			shader_material.set_shader_parameter("refraction_strength", 0.005)
 			background_texture.material = shader_material
-			print("水面涟漪 Shader 已加载")
+			print("水面涟漪 Shader 已加载（带噪声纹理）")
 		else:
-			print("警告：无法加载水面涟漪 Shader")
+			print("警告：无法加载水面涟漪 Shader 或噪声纹理")
 
 		add_child(background_texture)
 
