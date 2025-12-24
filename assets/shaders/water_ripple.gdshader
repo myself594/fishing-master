@@ -6,7 +6,7 @@ uniform sampler2D noise_texture : repeat_enable, filter_linear;
 // 水面效果参数
 uniform float wave_speed : hint_range(0.01, 0.5) = 0.08;
 uniform float wave_strength : hint_range(0.001, 0.03) = 0.008;
-uniform float water_start : hint_range(0.0, 0.5) = 0.0;
+uniform float water_start : hint_range(0.0, 0.5) = 0.3;
 uniform float refraction_strength : hint_range(0.0, 0.02) = 0.005;
 
 // 双层水波，不同速度和方向

@@ -109,7 +109,7 @@ func _setup_ui() -> void:
 			# 设置 Shader 参数
 			shader_material.set_shader_parameter("wave_speed", 0.08)
 			shader_material.set_shader_parameter("wave_strength", 0.008)
-			shader_material.set_shader_parameter("water_start", 0.0)
+			shader_material.set_shader_parameter("water_start", 0.3)  # 上方30%无效果
 			shader_material.set_shader_parameter("refraction_strength", 0.005)
 			background_texture.material = shader_material
 			print("水面涟漪 Shader 已加载（带噪声纹理）")
