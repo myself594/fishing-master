@@ -39,6 +39,10 @@ var water_rect: ColorRect
 var fishing_line: Line2D
 var background_texture: TextureRect
 var ambient_player: AudioStreamPlayer
+var rod_sprite: TextureRect  # 鱼竿
+
+# 鱼竿相关
+var rod_tip_position: Vector2 = Vector2.ZERO  # 竿尖位置
 
 # 动画相关
 var float_base_y: float = 0.0
@@ -155,12 +159,27 @@ func _setup_ui() -> void:
 		ambient_player.finished.connect(_on_ambient_finished)
 		add_child(ambient_player)
 
+	# 鱼竿
+	rod_sprite = TextureRect.new()
+	var rod_texture = load("res://assets/images/rods/bamboo_rod.png")
+	if rod_texture:
+		rod_sprite.texture = rod_texture
+		rod_sprite.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
+		rod_sprite.stretch_mode = TextureRect.STRETCH_KEEP_ASPECT
+		# 设置鱼竿大小和位置（从底部向右上延伸）
+		rod_sprite.custom_minimum_size = Vector2(400, 800)
+		rod_sprite.size = Vector2(400, 800)
+		rod_sprite.position = Vector2(-50, 480)  # 底部偏左位置
+		add_child(rod_sprite)
+		# 计算竿尖位置（图片右上角）
+		rod_tip_position = rod_sprite.position + Vector2(380, 50)
+
 	# 钓鱼线
 	fishing_line = Line2D.new()
 	fishing_line.width = 2.0
 	fishing_line.default_color = Color(0.3, 0.3, 0.3)
 	add_child(fishing_line)
-	
+
 	# 浮漂
 	float_sprite = ColorRect.new()
 	float_sprite.custom_minimum_size = Vector2(20, 40)
@@ -599,7 +618,7 @@ func _update_float_animation(delta: float) -> void:
 
 func _update_fishing_line(show: bool) -> void:
 	if show and float_sprite.visible:
-		var start_pos = Vector2(100, 100)  # 鱼竿位置
+		var start_pos = rod_tip_position  # 从竿尖开始
 		var end_pos = float_sprite.position + Vector2(10, 0)
 		fishing_line.points = [start_pos, end_pos]
 		fishing_line.visible = true
